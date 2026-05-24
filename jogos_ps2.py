@@ -1,5 +1,6 @@
 import csv
-import datetime 
+import datetime
+import plotly.express as px
 jogos = []
 
 with open("playstation2_games_merge.csv", mode="r", encoding="utf-8-sig") as arq:
@@ -30,6 +31,22 @@ def informacoes_gerais():
   print(f"Total de desenvolvedoras distintas: {len(dev)}")
   print(f"Total de publicadoras distintas: {len(pub)}")
   print("-" * 60)
+
+  resposta = input("Deseja gerar um gráfico com esses dados? (S/N): ").strip().upper()
+
+  if resposta == 'S':
+    valores = [len(jogos), len(dev), len(pub)]
+    
+    fig = px.bar(
+        x=['Jogos', 'Desenvolvedoras', 'Publicadoras'],
+        y=valores,
+        title="Visão Geral da Base de Dados",
+        text=valores
+    )
+
+    fig.update_traces(textposition='outside') 
+
+    fig.show()
 
 def primeiros_jogos():
     titulo("Os Primeiros 20 Jogos Lançados")
@@ -81,6 +98,17 @@ def jogos_regiao():
   print(f"Nº de Jogos Exclusivos da Europa: {len(apenas_eu)}")
   print(f"Nº de Jogos Exclusivos da América do Norte: {len(apenas_na)}")
   print("-"*60)
+
+  resposta = input("Deseja gerar um gráfico com esses dados? (S/N): ").strip().upper()
+
+  if resposta == 'S':
+    fig = px.pie(
+        names=['Japão', 'Europa', 'América do Norte'],
+        values=[len(apenas_jp), len(apenas_eu), len(apenas_na)],
+        title="Distribuição de Jogos Exclusivos por Região"
+    )
+    
+    fig.show()
 
 while True:
   titulo("Análise de Dados: Jogos Lançados para PlayStation 2")
