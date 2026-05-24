@@ -31,10 +31,26 @@ def informacoes_gerais():
   print(f"Total de publicadoras distintas: {len(pub)}")
   print("-" * 40)
 
+def primeiros_jogos():
+    titulo("Os Primeiros 20 Jogos Lançados")
+
+    def arruma_data(data):
+        ano = data[:4]
+        try:
+            return datetime.datetime.strptime(data[:10], "%Y-%m-%d")
+        except:
+            return datetime.datetime.strptime(f"{ano}-01-01", "%Y-%m-%d")
+
+    jogos_ordenados = sorted(jogos, key=lambda x: arruma_data(x['First released']))
+
+    for i in range(20):
+        jogo = jogos_ordenados[i]
+        print(f"{i+1}. {jogo['Title']} - Lançado em: {jogo['First released']}")
+
 while True:
   titulo("Análise de Dados: Jogos Lançados para PlayStation 2")
   print("1. Total de Jogos e Desenvolvedoras/Publicadoras Distintas")
-  print("2. Os Primeiros 10 Jogos Lançados")
+  print("2. Os Primeiros 20 Jogos Lançados")
   print("3. Jogos Lançados na Europa porém não nos EUA")
   print("4. Comparar Top 10 de um ano com Geral")
   print("5. Finalizar")
@@ -42,7 +58,7 @@ while True:
   if opcao == 1:
     informacoes_gerais()
   elif opcao == 2:
-    primeiros_10_jogos()
+    primeiros_jogos()
   elif opcao == 3:
     jogos_europa_nao_eua()
   elif opcao == 4:
